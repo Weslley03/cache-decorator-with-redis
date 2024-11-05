@@ -2,13 +2,19 @@ import { createClient } from "redis";
 import { cacheConfig } from "../config/cacheConfig";
 
 export class RedisCacheProvider {
-  private client = createClient({
-   password: cacheConfig.redis.password,
-   socket: {
-    host: cacheConfig.redis.host,
-    port: cacheConfig.redis.port
-   } ,
-  });
+  private client;
+
+  constructor() {
+    this.client = createClient({
+      password: cacheConfig.redis.password,
+      socket: {
+       host: cacheConfig.redis.host,
+       port: cacheConfig.redis.port
+      },
+     });
+
+     this.client.connect().catch(console.error);
+  };
 
   async get(key: string) {
     const result = await this.client.get(key);
