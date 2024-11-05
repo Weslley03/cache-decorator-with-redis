@@ -1,7 +1,9 @@
 import { cacheConfig } from '../config/cacheConfig';
+import { RedisCacheProvider } from '../providers/RedisCacheProvider';
+import { MemoryCacheProvider } from '../providers/MemoryCacheProvider';
 
 export class CacheService {
-  private provider;
+  private provider = cacheConfig.useRedis ? new RedisCacheProvider() : new MemoryCacheProvider();
 
   constructor() {};
 
